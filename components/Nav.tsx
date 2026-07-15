@@ -58,22 +58,11 @@ export default function Nav() {
         {/* Wordmark */}
         <Link href="/" className="flex items-center group" aria-label="NComputing - Home">
           <div className="flex items-center group-hover:scale-[1.02] transition-transform duration-200">
-            <svg viewBox="0 0 160 30" className="h-6 md:h-7 w-auto" xmlns="http://www.w3.org/2000/svg">
-              {/* Interlocking loops */}
-              <g>
-                {/* Bottom Left (Orange) */}
-                <circle cx="11" cy="19" r="5.5" fill="none" stroke="#e95d0f" strokeWidth="2.2" />
-                {/* Top (Light Green) */}
-                <circle cx="16" cy="11" r="5.5" fill="none" stroke="#78b72a" strokeWidth="2.2" />
-                {/* Bottom Right (Green) */}
-                <circle cx="21" cy="19" r="5.5" fill="none" stroke="#22c55e" strokeWidth="2.2" />
-              </g>
-              {/* Wordmark */}
-              <text x="36" y="21" fontFamily="var(--font-body)" fontSize="16" fontWeight="800" letterSpacing="-0.03em" className="select-none">
-                <tspan fill="#e95d0f">N</tspan>
-                <tspan fill="#111110" className="transition-colors group-hover:fill-black">Computing</tspan>
-              </text>
-            </svg>
+            <img 
+              src="/ncomputing_symbol.png" 
+              alt="NComputing" 
+              className="h-6 md:h-7 w-auto object-contain"
+            />
           </div>
         </Link>
 

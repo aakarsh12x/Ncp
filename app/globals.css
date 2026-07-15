@@ -148,3 +148,30 @@ body {
   display: inline-block;
   animation: slide-x 1.2s infinite ease-in-out;
 }
+
+/* ─── Custom NComputing Scrollbar ───────────────────────────── */
+/* Scrollbar width and style for Webkit browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-ngreen);
+  border: 2px solid var(--color-paper);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ngreen-dark);
+}
+
+/* Firefox support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ngreen) var(--color-paper);
+}
