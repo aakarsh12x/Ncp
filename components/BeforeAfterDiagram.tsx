@@ -5,7 +5,7 @@
  */
 export default function BeforeAfterDiagram() {
   return (
-    <div className="w-full overflow-x-auto" role="img" aria-label="Before and after diagram: aging PCs running Windows 10 are converted into managed LEAF OS endpoints connecting to a central virtual desktop server">
+    <div className="w-full overflow-x-auto p-4 -m-4" role="img" aria-label="Before and after diagram: aging PCs running Windows 10 are converted into managed LEAF OS endpoints connecting to a central virtual desktop server">
       <div className="flex flex-col lg:flex-row gap-0 border border-zinc-200/50 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200/50 min-w-[760px] rounded-3xl overflow-hidden shadow-lg bg-white/30 backdrop-blur-xl transition-all duration-300 hover:shadow-xl">
 
         {/* ── BEFORE (Legacy State) ─────────────────────────────── */}
@@ -18,6 +18,11 @@ export default function BeforeAfterDiagram() {
           </div>
 
           <svg viewBox="0 0 260 140" className="w-full max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="monitor-shadow-old" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2.5" stdDeviation="1.5" floodColor="#000" floodOpacity="0.08" />
+              </filter>
+            </defs>
             <style>{`
               .monitor-screen-old {
                 fill: #1e1e1e;
@@ -48,7 +53,7 @@ export default function BeforeAfterDiagram() {
               const x = 12 + i * 84;
               const y = 15;
               return (
-                <g key={i} className="opacity-90">
+                <g key={i} className="opacity-90" filter="url(#monitor-shadow-old)">
                   {/* Outer Bezel/Chassis */}
                   <rect x={x - 2} y={y - 2} width="56" height="38" rx="4" className="monitor-frame-old" />
                   {/* Inner Screen */}
@@ -155,6 +160,9 @@ export default function BeforeAfterDiagram() {
                 <stop offset="0%" stopColor="#10b981" />
                 <stop offset="100%" stopColor="#06b6d4" />
               </linearGradient>
+              <filter id="monitor-shadow-new" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="3" stdDeviation="2" floodColor="#000" floodOpacity="0.15" />
+              </filter>
             </defs>
             <style>{`
               .monitor-screen-new {
@@ -188,7 +196,7 @@ export default function BeforeAfterDiagram() {
               const cx = x + 26;
               const cy = y + 24;
               return (
-                <g key={i}>
+                <g key={i} filter="url(#monitor-shadow-new)">
                   {/* Outer Bezel (Sleek Modern Thin Bezel) */}
                   <rect x={x - 1.5} y={y - 1.5} width="55" height="35" rx="2" className="monitor-frame-new" />
                   {/* Screen */}
