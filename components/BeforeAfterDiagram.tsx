@@ -1,201 +1,283 @@
 /**
  * BeforeAfterDiagram
- * Engineering-style SVG schematic — thin strokes, labeled boxes, no illustration.
- * Shows: Fleet of aging PCs (before) → LEAF OS installed → Managed virtual desktops (after).
+ * A premium B2B engineering-style schematic comparing the legacy Windows 10 PC fleet
+ * to the modernized LEAF OS thin-client environment.
  */
 export default function BeforeAfterDiagram() {
   return (
     <div className="w-full overflow-x-auto" role="img" aria-label="Before and after diagram: aging PCs running Windows 10 are converted into managed LEAF OS endpoints connecting to a central virtual desktop server">
-      <div className="flex flex-col lg:flex-row gap-0 border border-zinc-200/60 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200/60 min-w-[640px] rounded-2xl overflow-hidden shadow-sm bg-white/40 backdrop-blur-md">
+      <div className="flex flex-col lg:flex-row gap-0 border border-zinc-200/50 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200/50 min-w-[760px] rounded-3xl overflow-hidden shadow-lg bg-white/30 backdrop-blur-xl transition-all duration-300 hover:shadow-xl">
 
-        {/* ── BEFORE ─────────────────────────────── */}
-        <div className="flex-1 px-8 py-10 bg-paper">
-          <p className="text-[9px] font-body font-semibold uppercase tracking-[0.14em] text-ink-400 mb-6">
-            Before — Today
-          </p>
+        {/* ── BEFORE (Legacy State) ─────────────────────────────── */}
+        <div className="flex-1 px-10 py-12 bg-zinc-50/50 transition-colors duration-300 hover:bg-zinc-50/80">
+          <div className="flex items-center justify-between mb-8">
+            <span className="text-[10px] font-body font-bold uppercase tracking-[0.2em] text-red-600/80 bg-red-50 border border-red-100 px-3 py-1 rounded-full">
+              Before — Today
+            </span>
+            <span className="text-xs text-zinc-500 font-medium">Windows 10 EOL Hazard</span>
+          </div>
+
           <svg viewBox="0 0 260 140" className="w-full max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
             <style>{`
               .monitor-screen-old {
-                fill: #fdfdfc;
-                stroke: #a8a8a3;
+                fill: #1e1e1e;
+                stroke: #71717a;
+                stroke-width: 1.2;
+              }
+              .monitor-frame-old {
+                fill: #e4e4e7;
+                stroke: #a1a1aa;
                 stroke-width: 1;
               }
               .monitor-stand-old {
-                stroke: #a8a8a3;
+                fill: #d4d4d8;
+                stroke: #a1a1aa;
                 stroke-width: 1;
               }
-              .animate-eol-badge {
-                animation: eol-warning 3s infinite ease-in-out;
+              .animate-eol-alert {
+                animation: alert-glow 2s infinite ease-in-out;
               }
-              .animate-eol-text {
-                animation: eol-text 3s infinite ease-in-out;
-              }
-              @keyframes eol-warning {
-                0%, 100% { stroke: #a8a8a3; fill: transparent; }
-                50% { stroke: #c8401a; fill: rgba(200, 64, 26, 0.05); }
-              }
-              @keyframes eol-text {
-                0%, 100% { fill: #6b6b67; }
-                50% { fill: #c8401a; }
+              @keyframes alert-glow {
+                0%, 100% { fill: rgba(220, 38, 38, 0.05); stroke: rgba(220, 38, 38, 0.4); }
+                50% { fill: rgba(220, 38, 38, 0.2); stroke: rgba(220, 38, 38, 0.95); }
               }
             `}</style>
-            {/* 3 aging PCs in a 1×3 row */}
+            
+            {/* 3 aging PCs in a row */}
             {[0, 1, 2].map((i) => {
               const x = 12 + i * 84;
-              const y = 20;
+              const y = 15;
               return (
-                <g key={i}>
-                  {/* Monitor Screen */}
-                  <rect x={x} y={y} width="52" height="32" rx="2" className="monitor-screen-old" />
+                <g key={i} className="opacity-90">
+                  {/* Outer Bezel/Chassis */}
+                  <rect x={x - 2} y={y - 2} width="56" height="38" rx="4" className="monitor-frame-old" />
+                  {/* Inner Screen */}
+                  <rect x={x} y={y} width="52" height="32" rx="1.5" className="monitor-screen-old" />
                   {/* Stand Neck */}
-                  <line x1={x + 26} y1={y + 32} x2={x + 26} y2={y + 38} className="monitor-stand-old" />
+                  <path d={`M ${x + 22} ${y + 36} L ${x + 20} ${y + 44} L ${x + 32} ${y + 44} L ${x + 30} ${y + 36} Z`} className="monitor-stand-old" />
                   {/* Stand Base */}
-                  <line x1={x + 16} y1={y + 38} x2={x + 36} y2={y + 38} className="monitor-stand-old" />
+                  <rect x={x + 12} y={y + 43} width="28" height="3" rx="1.5" className="monitor-stand-old" />
                   
                   {/* EOL warning inside the screen */}
-                  <rect x={x + 8} y={y + 6} width="36" height="12" rx="1" fill="none" className="animate-eol-badge" strokeWidth="0.75" />
-                  <text x={x + 26} y={y + 14} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="5.5" className="animate-eol-text" fontWeight="bold">WIN 10 EOL</text>
+                  <rect x={x + 6} y={y + 6} width="40" height="20" rx="2" className="animate-eol-alert" strokeWidth="0.8" />
+                  <text x={x + 26} y={y + 14} textAnchor="middle" fontFamily="var(--font-body)" fontSize="5.5" fill="#f87171" fontWeight="bold" letterSpacing="0.05em">ALERT</text>
+                  <text x={x + 26} y={y + 22} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="4.5" fill="#ef4444" fontWeight="black">WIN 10 EOL</text>
                   
-                  {/* Label */}
-                  <text x={x + 26} y={y + 52} textAnchor="middle" fontFamily="var(--font-body)" fontSize="7" fill="#6b6b67">PC 0{i + 1}</text>
+                  {/* Power Button Indicator (Amber/Off) */}
+                  <circle cx={x + 48} cy={y + 34} r="0.8" fill="#f59e0b" />
+                  
+                  {/* PC Label */}
+                  <text x={x + 26} y={y + 55} textAnchor="middle" fontFamily="var(--font-body)" fontSize="7" fill="#71717a" fontWeight="500">PC 0{i + 1}</text>
                 </g>
               );
             })}
+            
             {/* Caption */}
-            <text x="130" y="112" textAnchor="middle" fontFamily="var(--font-body)" fontSize="8" fill="#6b6b67">
-              Aging fleet — Windows 10 support ends Oct 2025
+            <rect x="15" y="105" width="230" height="20" rx="6" fill="#fef2f2" stroke="#fee2e2" strokeWidth="1" />
+            <text x="130" y="117" textAnchor="middle" fontFamily="var(--font-body)" fontSize="7.5" fill="#991b1b" fontWeight="600">
+              Legacy hardware locked out of Windows 11 updates
             </text>
           </svg>
-          <div className="mt-6 space-y-2">
-            <div className="flex items-start gap-2">
-              <span className="w-1.5 h-px bg-signal mt-2 shrink-0"/>
-              <p className="text-xs text-ink-400">Each PC managed separately</p>
+
+          {/* Feature Points */}
+          <div className="mt-8 space-y-3.5">
+            <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-red-50/50 transition-colors duration-200">
+              <svg className="w-4 h-4 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <div>
+                <p className="text-xs font-semibold text-zinc-800">Isolated Management</p>
+                <p className="text-[11px] text-zinc-500 mt-0.5">Each workstation configured and updated manually on-site.</p>
+              </div>
             </div>
-            <div className="flex items-start gap-2">
-              <span className="w-1.5 h-px bg-signal mt-2 shrink-0"/>
-              <p className="text-xs text-ink-400">Local data, inconsistent patching</p>
+
+            <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-red-50/50 transition-colors duration-200">
+              <svg className="w-4 h-4 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <div>
+                <p className="text-xs font-semibold text-zinc-800">Security Vulnerabilities</p>
+                <p className="text-[11px] text-zinc-500 mt-0.5">Local data storage with patching gaps on unmanaged endpoints.</p>
+              </div>
             </div>
-            <div className="flex items-start gap-2">
-              <span className="w-1.5 h-px bg-signal mt-2 shrink-0"/>
-              <p className="text-xs text-ink-400">Hardware replacement: ₹25,000–₹45,000 per seat</p>
+
+            <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-red-50/50 transition-colors duration-200">
+              <svg className="w-4 h-4 text-red-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <div>
+                <p className="text-xs font-semibold text-zinc-800">Forced Capital Expense</p>
+                <p className="text-[11px] text-zinc-500 mt-0.5">Unavoidable hardware replacement cost of ₹25,000–₹45,000 per PC.</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* ── ARROW ─────────────────────────────── */}
-        <div className="hidden lg:flex flex-col items-center justify-center w-14 bg-paper shrink-0">
-          <svg viewBox="0 0 24 80" className="w-6" xmlns="http://www.w3.org/2000/svg">
+        {/* ── CENTRAL FLOW ARROW ─────────────────────────────── */}
+        <div className="hidden lg:flex flex-col items-center justify-center w-16 bg-white/40 shrink-0 relative">
+          <div className="absolute inset-y-0 w-px bg-gradient-to-b from-zinc-200 via-zinc-300 to-zinc-200" />
+          <svg viewBox="0 0 24 100" className="w-8 h-24 z-10" xmlns="http://www.w3.org/2000/svg">
             <style>{`
-              .arrow-line {
-                stroke-dasharray: 6, 4;
-                animation: flow-dash 1.5s infinite linear;
+              .flow-path {
+                stroke-dasharray: 8, 8;
+                animation: flow-pulse 1.8s infinite linear;
               }
-              @keyframes flow-dash {
-                to {
-                  stroke-dashoffset: -10;
-                }
+              @keyframes flow-pulse {
+                to { stroke-dashoffset: -16; }
               }
             `}</style>
-            <line x1="12" y1="0" x2="12" y2="60" stroke="#6b6b67" strokeWidth="1.5" className="arrow-line"/>
-            <polyline points="6,54 12,66 18,54" fill="none" stroke="#6b6b67" strokeWidth="1.5" strokeLinejoin="round"/>
+            <path d="M 12 0 L 12 85" stroke="#78b72a" strokeWidth="2.5" strokeLinecap="round" className="flow-path" />
+            <polygon points="6,78 12,94 18,78" fill="#78b72a" />
           </svg>
+          <span className="text-[8px] font-mono font-bold text-zinc-400 uppercase tracking-widest mt-2">Migrate</span>
         </div>
 
-        {/* ── AFTER ──────────────────────────────── */}
-        <div className="flex-1 px-8 py-10 bg-paper">
-          <p className="text-[9px] font-body font-semibold uppercase tracking-[0.14em] text-ink mb-6">
-            After — LEAF OS Installed
-          </p>
+        {/* ── AFTER (Modernized LEAF OS State) ──────────────────────────────── */}
+        <div className="flex-1 px-10 py-12 bg-white transition-colors duration-300 hover:bg-zinc-50/20">
+          <div className="flex items-center justify-between mb-8">
+            <span className="text-[10px] font-body font-bold uppercase tracking-[0.2em] text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">
+              After — LEAF OS Installed
+            </span>
+            <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              Windows 11 Compliant
+            </span>
+          </div>
+
           <svg viewBox="0 0 260 140" className="w-full max-w-sm mx-auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="screen-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#1e3a8a" />
+                <stop offset="60%" stopColor="#0f172a" />
+                <stop offset="100%" stopColor="#020617" />
+              </linearGradient>
+              <linearGradient id="cloud-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#10b981" />
+                <stop offset="100%" stopColor="#06b6d4" />
+              </linearGradient>
+            </defs>
             <style>{`
               .monitor-screen-new {
-                fill: #fffef9;
-                stroke: #111110;
+                fill: url(#screen-grad);
+                stroke: #09090b;
                 stroke-width: 1.25;
+              }
+              .monitor-frame-new {
+                fill: #09090b;
+                stroke: #27272a;
+                stroke-width: 1;
               }
               .monitor-stand-new {
-                stroke: #111110;
-                stroke-width: 1.25;
+                fill: #27272a;
+                stroke: #18181b;
+                stroke-width: 1;
               }
-              .ping-circle {
-                animation: ping-anim 2.5s infinite cubic-bezier(0.16, 1, 0.3, 1);
+              .active-pulse {
+                animation: ping-pulse 2s infinite cubic-bezier(0.16, 1, 0.3, 1);
               }
-              @keyframes ping-anim {
-                0% {
-                  r: 2px;
-                  opacity: 0.8;
-                }
-                100% {
-                  r: 8px;
-                  opacity: 0;
-                }
+              @keyframes ping-pulse {
+                0% { r: 1.5px; opacity: 1; }
+                100% { r: 7px; opacity: 0; }
               }
             `}</style>
-            {/* 3 LEAF OS endpoints in a 1×3 row */}
+
+            {/* 3 LEAF OS endpoints in a row */}
             {[0, 1, 2].map((i) => {
               const x = 12 + i * 84;
-              const y = 20;
+              const y = 15;
               const cx = x + 26;
               const cy = y + 24;
               return (
                 <g key={i}>
-                  {/* Monitor Screen */}
-                  <rect x={x} y={y} width="52" height="32" rx="2" className="monitor-screen-new" />
+                  {/* Outer Bezel (Sleek Modern Thin Bezel) */}
+                  <rect x={x - 1.5} y={y - 1.5} width="55" height="35" rx="2" className="monitor-frame-new" />
+                  {/* Screen */}
+                  <rect x={x} y={y} width="52" height="32" rx="1" className="monitor-screen-new" />
                   {/* Stand Neck */}
-                  <line x1={x + 26} y1={y + 32} x2={x + 26} y2={y + 38} className="monitor-stand-new" />
+                  <rect x={x + 24} y={y + 32} width="4" height="8" className="monitor-stand-new" />
                   {/* Stand Base */}
-                  <line x1={x + 16} y1={y + 38} x2={x + 36} y2={y + 38} className="monitor-stand-new" />
+                  <ellipse cx={cx} cy={y + 40} rx="12" ry="2" className="monitor-stand-new" />
                   
-                  {/* LEAF OS branding inside screen */}
-                  <rect x={x + 6} y={y + 5} width="40" height="10" rx="1" fill="none" stroke="#22c55e" strokeWidth="0.75" />
-                  <text x={x + 26} y={y + 12} textAnchor="middle" fontFamily="var(--font-body)" fontSize="6" fill="#111110" fontWeight="bold">LEAF OS</text>
-
-                  {/* Remote session visual: small desk line */}
-                  <line x1={x + 10} y1={y + 19} x2={x + 42} y2={y + 19} stroke="#a8a8a3" strokeWidth="0.5" />
+                  {/* OS GUI representation */}
+                  <rect x={x + 4} y={y + 4} width="44" height="8" rx="1.5" fill="rgba(255, 255, 255, 0.08)" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="0.5" />
+                  <text x={x + 26} y={y + 10} textAnchor="middle" fontFamily="var(--font-body)" fontSize="5" fill="#34d399" fontWeight="bold" letterSpacing="0.05em">LEAF OS</text>
                   
-                  {/* Connection indicator */}
-                  <circle cx={cx} cy={cy} r="2" fill="#22c55e" className="ping-circle" />
-                  <circle cx={cx} cy={cy} r="2" fill="#22c55e" />
-
+                  {/* Mock Window desktop lines */}
+                  <line x1={x + 6} y1={y + 17} x2={x + 46} y2={y + 17} stroke="rgba(255, 255, 255, 0.1)" strokeWidth="0.5" />
+                  
+                  {/* Status Indicator Connection */}
+                  <circle cx={cx} cy={cy} r="1.5" fill="#10b981" className="active-pulse" />
+                  <circle cx={cx} cy={cy} r="1.5" fill="#10b981" />
+                  
+                  {/* Power indicator light (Active Green) */}
+                  <circle cx={x + 50} cy={y + 30} r="0.6" fill="#10b981" />
+                  
                   {/* Label */}
-                  <text x={x + 26} y={y + 52} textAnchor="middle" fontFamily="var(--font-body)" fontSize="7" fill="#111110" fontWeight="bold">Endpoint 0{i + 1}</text>
+                  <text x={x + 26} y={y + 55} textAnchor="middle" fontFamily="var(--font-body)" fontSize="7" fill="#18181b" fontWeight="bold">Endpoint 0{i + 1}</text>
                 </g>
               );
             })}
+
             {/* Caption */}
-            <text x="130" y="112" textAnchor="middle" fontFamily="var(--font-body)" fontSize="8" fill="#111110" fontWeight="bold">
-              Centrally managed Windows 11 cloud sessions
+            <rect x="15" y="105" width="230" height="20" rx="6" fill="#ecfdf5" stroke="#d1fae5" strokeWidth="1" />
+            <text x="130" y="117" textAnchor="middle" fontFamily="var(--font-body)" fontSize="7.5" fill="#065f46" fontWeight="bold">
+              Secure virtualized connection to Windows 11 Cloud
             </text>
           </svg>
-          <div className="mt-6 space-y-2">
-            <div className="flex items-start gap-2">
-              <span className="w-1.5 h-px bg-signal mt-2 shrink-0"/>
-              <p className="text-xs text-ink-400">Single pane of glass — all endpoints from one console</p>
+
+          {/* Feature Points */}
+          <div className="mt-8 space-y-3.5">
+            <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-emerald-50/50 transition-colors duration-200">
+              <svg className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <div>
+                <p className="text-xs font-semibold text-zinc-900">Unified Central Console</p>
+                <p className="text-[11px] text-zinc-600 mt-0.5">Control, push updates, and configure all endpoints from a single console.</p>
+              </div>
             </div>
-            <div className="flex items-start gap-2">
-              <span className="w-1.5 h-px bg-signal mt-2 shrink-0"/>
-              <p className="text-xs text-ink-400">No local data — sessions run in the cloud or on-prem server</p>
+
+            <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-emerald-50/50 transition-colors duration-200">
+              <svg className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <div>
+                <p className="text-xs font-semibold text-zinc-900">Zero-Trust Local Security</p>
+                <p className="text-[11px] text-zinc-600 mt-0.5">Zero data saved locally. User sessions run completely isolated in secure clouds.</p>
+              </div>
             </div>
-            <div className="flex items-start gap-2">
-              <span className="w-1.5 h-px bg-signal mt-2 shrink-0"/>
-              <p className="text-xs text-ink-400">Runs on 4 GB RAM, 8 GB storage — hardware life extended by years</p>
+
+            <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-emerald-50/50 transition-colors duration-200">
+              <svg className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <div>
+                <p className="text-xs font-semibold text-zinc-900">Minimal Resource Footprint</p>
+                <p className="text-[11px] text-zinc-600 mt-0.5">Smooth performance on 4 GB RAM, extending existing machine lifetimes by 5+ years.</p>
+              </div>
             </div>
           </div>
         </div>
 
       </div>
 
-      {/* Infrastructure layer */}
-      <div className="border border-zinc-200/60 bg-white/40 backdrop-blur-md p-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10 min-w-[640px] rounded-2xl mt-4 shadow-sm">
-        <div className="text-center">
-          <p className="text-[9px] font-body font-semibold uppercase tracking-[0.14em] text-ink-400 mb-1">Works with</p>
-          <div className="flex gap-4 flex-wrap justify-center">
-            {["Microsoft AVD", "Windows 365", "Citrix", "Omnissa", "vSpace Pro"].map((p) => (
-              <span key={p} className="text-[10px] font-body font-medium text-ink border border-zinc-200/60 bg-white/50 px-2.5 py-1 rounded-lg">
-                {p}
-              </span>
-            ))}
-          </div>
+      {/* Infrastructure Integration Compatibility Panel */}
+      <div className="border border-zinc-200/50 bg-white/40 backdrop-blur-md p-6 flex flex-col md:flex-row items-center justify-between gap-6 min-w-[760px] rounded-3xl mt-6 shadow-md transition-all duration-300 hover:shadow-lg">
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+          <span className="text-[10px] font-body font-bold uppercase tracking-[0.2em] text-zinc-500">
+            Works Interoperably With
+          </span>
+        </div>
+        <div className="flex gap-3 flex-wrap justify-center md:justify-end">
+          {["Microsoft AVD", "Windows 365", "Citrix", "Omnissa", "vSpace Pro"].map((platform) => (
+            <span
+              key={platform}
+              className="text-[10px] font-body font-semibold text-zinc-700 border border-zinc-200/60 bg-white/70 px-3.5 py-1.5 rounded-full shadow-sm hover:border-emerald-500 hover:text-emerald-700 hover:bg-emerald-50/30 transition-all duration-200 cursor-default select-none"
+            >
+              {platform}
+            </span>
+          ))}
         </div>
       </div>
     </div>
