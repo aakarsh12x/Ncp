@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useCallback, ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useCallback, ReactNode, useState } from 'react';
 import Lenis from 'lenis';
 import './ScrollStack.css';
 
@@ -52,12 +52,23 @@ const ScrollStack = ({
   const lenisRef = useRef<Lenis | null>(null);
   const cardsRef = useRef<HTMLElement[]>([]);
   
+  const [isMobile, setIsMobile] = useState(false);
+
   // Cache to store the static, untransformed offsets
   const cardOffsetsRef = useRef<number[]>([]);
   const endElementOffsetRef = useRef<number>(0);
   
   const lastTransformsRef = useRef<Map<number, { translateY: number; scale: number; rotation: number; blur: number }>>(new Map());
   const isUpdatingRef = useRef(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const calculateProgress = useCallback((scrollTop: number, start: number, end: number) => {
     if (scrollTop < start) return 0;
@@ -131,7 +142,7 @@ const ScrollStack = ({
   }, [useWindowScroll, getElementLayoutOffset]);
 
   const updateCardTransforms = useCallback(() => {
-    if (!cardsRef.current.length || isUpdatingRef.current) return;
+    if (!cardsRef.current.length || isUpdatingRef.current || isMobile) return;
 
     isUpdatingRef.current = true;
 
@@ -225,6 +236,7 @@ const ScrollStack = ({
 
     isUpdatingRef.current = false;
   }, [
+    isMobile,
     itemScale,
     itemStackDistance,
     stackPosition,
@@ -309,6 +321,26 @@ const ScrollStack = ({
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
 
+    if (isMobile) {
+      // Clean up styles to let cards stack vertically with native scrolling
+      cards.forEach((card) => {
+        card.style.transform = '';
+        card.style.filter = '';
+        card.style.marginBottom = '24px';
+        card.style.willChange = '';
+        card.style.transformOrigin = '';
+        card.style.backfaceVisibility = '';
+      });
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
+      return;
+    }
+
     cards.forEach((card, i) => {
       if (i < cards.length - 1) {
         card.style.marginBottom = `${itemDistance}px`;
@@ -355,6 +387,7 @@ const ScrollStack = ({
       isUpdatingRef.current = false;
     };
   }, [
+    isMobile,
     itemDistance,
     itemScale,
     itemStackDistance,
@@ -375,7 +408,7 @@ const ScrollStack = ({
     <div className={`scroll-stack-scroller ${className}`.trim()} ref={scrollerRef}>
       <div className="scroll-stack-inner">
         {children}
-        <div className="scroll-stack-end" />
+        {!isMobile && <div className="scroll-stack-end" />}
       </div>
     </div>
   );

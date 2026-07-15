@@ -472,7 +472,7 @@ export default function ProblemPage() {
             <div className="w-full flex flex-col justify-center h-full">
               <Reveal delay={120}>
                 <figure className="w-full">
-                  <div className="relative w-full overflow-hidden rounded-2xl border border-ink-200/80 shadow-[0_16px_48px_rgba(0,0,0,0.06)]" style={{ aspectRatio: "4/5" }}>
+                  <div className="relative w-full overflow-hidden rounded-2xl border border-ink-200/80 shadow-[0_16px_48px_rgba(0,0,0,0.06)] aspect-[16/10] md:aspect-[4/5]">
                     <Image
                       src="/images/problem/itroom.png"
                       alt="The interior of a small, cluttered IT server room with patch panels, tangled ethernet cables, aging tower unit, and a single warm overhead light."

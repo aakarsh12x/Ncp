@@ -114,27 +114,35 @@ export default function HomePage() {
       {/* ─── PROOF NUMBERS SECTION ────────────────────────────────── */}
       <section className="bg-paper py-20 lg:py-24 border-b border-ink-200" aria-label="Company scale and verification">
         <div className="max-w-[80rem] mx-auto px-6 md:px-10">
-          {/* Tabular stat layout - each item staggered individually */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 divide-y lg:divide-y-0 lg:divide-x divide-ink-200">
-            {STATS.map(({ value, suffix, unit, label }, i) => (
-              <Reveal key={label} delay={i * 120} className="pt-8 lg:pt-0 lg:px-8 first:pt-0 first:pl-0 last:pr-0">
-                <div className="flex flex-col justify-between h-full">
-                  <div className="mt-2">
-                    <div className="flex items-baseline gap-1">
-                      <span className="font-display text-5xl md:text-6xl font-normal tracking-tight text-ink">
-                        <NumberTicker value={value} suffix={suffix} duration={1000} />
-                      </span>
-                      <span className="font-mono text-xs uppercase tracking-wider text-ngreen font-semibold">
-                        {unit}
-                      </span>
+          {/* Tabular stat layout with symmetric grid dividers */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+            {STATS.map(({ value, suffix, unit, label }, i) => {
+              let cellClasses = "";
+              if (i === 0) cellClasses = "pr-6 pb-8 lg:pr-8 lg:pl-0 lg:pb-0";
+              if (i === 1) cellClasses = "pl-6 pb-8 border-l border-ink-200 lg:px-8 lg:pb-0";
+              if (i === 2) cellClasses = "pr-6 pt-8 border-t border-ink-200 lg:px-8 lg:pt-0 lg:border-t-0 lg:border-l";
+              if (i === 3) cellClasses = "pl-6 pt-8 border-t border-l border-ink-200 lg:pl-8 lg:pr-0 lg:pt-0 lg:border-t-0";
+
+              return (
+                <Reveal key={label} delay={i * 120} className={cellClasses}>
+                  <div className="flex flex-col justify-between h-full">
+                    <div>
+                      <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1">
+                        <span className="font-display text-5xl md:text-6xl font-normal tracking-tight text-ink">
+                          <NumberTicker value={value} suffix={suffix} duration={1000} />
+                        </span>
+                        <span className="font-mono text-[10px] sm:text-xs uppercase tracking-wider text-ngreen font-semibold">
+                          {unit}
+                        </span>
+                      </div>
+                      <p className="text-xs text-ink-600 font-medium tracking-wide mt-2">
+                        {label}
+                      </p>
                     </div>
-                    <p className="text-xs text-ink-600 font-medium tracking-wide mt-2">
-                      {label}
-                    </p>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
           <Reveal delay={520}>
             <p className="mt-10 text-[10px] font-mono text-ink-400 border-t border-ink-200 pt-4">

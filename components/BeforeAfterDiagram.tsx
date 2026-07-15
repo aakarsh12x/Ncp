@@ -3,13 +3,34 @@
  * A premium B2B engineering-style schematic comparing the legacy Windows 10 PC fleet
  * to the modernized LEAF OS thin-client environment.
  */
+'use client';
+
+import { useState, useEffect } from 'react';
+
 export default function BeforeAfterDiagram() {
+  const [isPhone, setIsPhone] = useState(false);
+
+  useEffect(() => {
+    const checkPhone = () => {
+      setIsPhone(window.innerWidth < 640);
+    };
+    checkPhone();
+    window.addEventListener('resize', checkPhone);
+    return () => window.removeEventListener('resize', checkPhone);
+  }, []);
+
+  // Show 2 computers on mobile/phone screens, 3 on tablets/desktop
+  const items = isPhone ? [0, 1] : [0, 1, 2];
+  const numItems = items.length;
+  // Centered coordinate formula: Total Width (260) - (Count * 84 - 32) all divided by 2
+  const centerOffset = (260 - (numItems * 84 - 32)) / 2;
+
   return (
     <div className="w-full overflow-x-auto p-4 -m-4" role="img" aria-label="Before and after diagram: aging PCs running Windows 10 are converted into managed LEAF OS endpoints connecting to a central virtual desktop server">
-      <div className="flex flex-col lg:flex-row gap-0 border border-zinc-200/50 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200/50 min-w-[760px] rounded-3xl overflow-hidden shadow-lg bg-white/30 backdrop-blur-xl transition-all duration-300 hover:shadow-xl">
+      <div className="flex flex-col lg:flex-row gap-0 border border-zinc-200/50 divide-y lg:divide-y-0 lg:divide-x divide-zinc-200/50 w-full lg:min-w-[760px] rounded-3xl overflow-hidden shadow-lg bg-white/30 backdrop-blur-xl transition-all duration-300 hover:shadow-xl">
 
         {/* ── BEFORE (Legacy State) ─────────────────────────────── */}
-        <div className="flex-1 px-10 py-12 bg-zinc-50/50 transition-colors duration-300 hover:bg-zinc-50/80">
+        <div className="flex-1 px-4 py-8 sm:px-10 sm:py-12 bg-zinc-50/50 transition-colors duration-300 hover:bg-zinc-50/80">
           <div className="flex items-center justify-between mb-8">
             <span className="text-[10px] font-body font-bold uppercase tracking-[0.2em] text-red-600/80 bg-red-50 border border-red-100 px-3 py-1 rounded-full">
               Before — Today
@@ -48,9 +69,9 @@ export default function BeforeAfterDiagram() {
               }
             `}</style>
             
-            {/* 3 aging PCs in a row */}
-            {[0, 1, 2].map((i) => {
-              const x = 12 + i * 84;
+            {/* Aging PCs */}
+            {items.map((i) => {
+              const x = centerOffset + i * 84;
               const y = 15;
               return (
                 <g key={i} className="opacity-90" filter="url(#monitor-shadow-old)">
@@ -138,7 +159,7 @@ export default function BeforeAfterDiagram() {
         </div>
 
         {/* ── AFTER (Modernized LEAF OS State) ──────────────────────────────── */}
-        <div className="flex-1 px-10 py-12 bg-white transition-colors duration-300 hover:bg-zinc-50/20">
+        <div className="flex-1 px-4 py-8 sm:px-10 sm:py-12 bg-white transition-colors duration-300 hover:bg-zinc-50/20">
           <div className="flex items-center justify-between mb-8">
             <span className="text-[10px] font-body font-bold uppercase tracking-[0.2em] text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">
               After — LEAF OS Installed
@@ -189,9 +210,9 @@ export default function BeforeAfterDiagram() {
               }
             `}</style>
 
-            {/* 3 LEAF OS endpoints in a row */}
-            {[0, 1, 2].map((i) => {
-              const x = 12 + i * 84;
+            {/* LEAF OS endpoints */}
+            {items.map((i) => {
+              const x = centerOffset + i * 84;
               const y = 15;
               const cx = x + 26;
               const cy = y + 24;
@@ -270,7 +291,7 @@ export default function BeforeAfterDiagram() {
       </div>
 
       {/* Infrastructure Integration Compatibility Panel */}
-      <div className="border border-zinc-200/50 bg-white/40 backdrop-blur-md p-6 flex flex-col md:flex-row items-center justify-between gap-6 min-w-[760px] rounded-3xl mt-6 shadow-md transition-all duration-300 hover:shadow-lg">
+      <div className="border border-zinc-200/50 bg-white/40 backdrop-blur-md p-6 flex flex-col md:flex-row items-center justify-between gap-6 w-full lg:min-w-[760px] rounded-3xl mt-6 shadow-md transition-all duration-300 hover:shadow-lg">
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
           <span className="text-[10px] font-body font-bold uppercase tracking-[0.2em] text-zinc-500">

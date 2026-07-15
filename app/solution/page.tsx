@@ -261,7 +261,7 @@ export default function SolutionPage() {
               {/* Product render */}
               <Reveal delay={100}>
                 <figure className="w-full">
-                  <div className="relative w-full overflow-hidden rounded-2xl border border-ink-200/80 shadow-[0_16px_48px_rgba(0,0,0,0.06)] bg-zinc-900" style={{ aspectRatio: "4/3" }}>
+                  <div className="relative w-full overflow-hidden rounded-2xl border border-ink-200/80 shadow-[0_16px_48px_rgba(0,0,0,0.06)] bg-zinc-900 aspect-[16/10] md:aspect-[4/3]">
                     <Image
                       src="/images/solution/leafos_usb.png"
                       alt="Premium studio product photograph of a modern metallic swivel USB drive with the LEAF OS logo, representing the bootable deployment medium."
